@@ -115,6 +115,20 @@
                         </div>
                         <div class="bb-sidebar-contact">
                             <ul>
+                                <li class="relative block mb-[14px]">
+                                    <div class="bb-sidebar-block-item relative">
+                                        <input type="checkbox" class="w-full h-[calc(100%-5px)] absolute opacity-[0] cursor-pointer z-[999] top-[50%] left-[0] translate-y-[-50%]">
+                                        <a href="javascript:void(0)" class="ml-[30px] block text-[#777] text-[14px] leading-[20px] font-normal capitalize cursor-pointer">200gm pack</a>
+                                        <span class="checked absolute top-[0] left-[0] h-[18px] w-[18px] bg-[#fff] border-[1px] border-solid border-[#eee] rounded-[5px] overflow-hidden"></span>
+                                    </div>
+                                </li>
+                                <li class="relative block mb-[14px]">
+                                    <div class="bb-sidebar-block-item relative">
+                                        <input type="checkbox" class="w-full h-[calc(100%-5px)] absolute opacity-[0] cursor-pointer z-[999] top-[50%] left-[0] translate-y-[-50%]">
+                                        <a href="javascript:void(0)" class="ml-[30px] block text-[#777] text-[14px] leading-[20px] font-normal capitalize cursor-pointer">500gm pack</a>
+                                        <span class="checked absolute top-[0] left-[0] h-[18px] w-[18px] bg-[#fff] border-[1px] border-solid border-[#eee] rounded-[5px] overflow-hidden"></span>
+                                    </div>
+                                </li>
                                 @foreach($weights as $weight)
                                     @php
                                         $checked = request()->has('weights') && in_array($weight->name, request()->weights) ? 'checked' : '';
@@ -133,6 +147,7 @@
                             </ul>
                         </div>
                     </div>
+<<<<<<< HEAD
                     @if($products->isNotEmpty() && $products->count() !== 1)
                         <div class="bb-sidebar-block p-[20px] border-b border-solid border-[#eee]">
                             <div class="bb-sidebar-title mb-[20px]">
@@ -146,6 +161,44 @@
                             </div>
                         </div>
                     @endif
+=======
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            document.querySelectorAll(".weight-filter").forEach(input => {
+                                input.addEventListener("change", function () {
+                                    let params = new URLSearchParams(window.location.search);
+
+                                    // Agar checkbox tanlangan bo‘lsa, paramsga qo‘shamiz
+                                    if (this.checked) {
+                                        params.append('weights[]', this.value);
+                                    } else {
+                                        let values = params.getAll('weights[]');
+                                        params.delete('weights[]');
+                                        values.forEach(val => {
+                                            if (val !== this.value) params.append('weights[]', val);
+                                        });
+                                    }
+
+                                    // Sahifani yangilash
+                                    window.location.search = params.toString();
+                                });
+                            });
+                        });
+                    </script>
+
+                    <div class="bb-sidebar-block p-[20px] border-b border-solid border-[#eee]">
+                        <div class="bb-sidebar-title mb-[20px]">
+                            <h3 class="font-quicksand text-[18px] tracking-[0.03rem] leading-[1.2] font-bold text-[#3d4750]">Price</h3>
+                        </div>
+                        <div class="bb-price-range">
+                            <div class="price-range-slider relative w-full">
+                                <p class="range-value text-center text-[16px] font-semibold text-[#3d4750] mb-[10px]" id="amount"></p>
+                                <div id="slider-range" class="range-bar h-[8px] bg-gray-300 rounded-md"></div>
+                            </div>
+                        </div>
+                    </div>
+>>>>>>> 61e01f4 (I fixed a bug with the frontend)
 
                     <div class="bb-sidebar-block p-[20px]">
                         <div class="bb-sidebar-title mb-[20px]">
@@ -201,6 +254,7 @@
                                             </button>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                     <div class="relative inline-block text-left">
                                         <button id="sortButton" class="bg-gray-100 text-gray-700 font-medium px-4 py-2 rounded-lg shadow-md flex items-center">
                                             <span id="selectedSort">Sort by</span>
@@ -215,6 +269,21 @@
                                             <a href="?sort=name_desc" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Name Z-A</a>
                                             <a href="?sort=price_asc" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Price: Low to High</a>
                                             <a href="?sort=price_desc" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Price: High to Low</a>
+=======
+                                    <div class="w-[50%] px-[12px] max-[420px]:w-full">
+                                        <div class="bb-select-inner h-full py-[10px] flex items-center justify-end max-[420px]:justify-center">
+                                            <div class="custom-select w-[130px] mr-[30px] flex justify-end text-[#777]  items-center text-[14px] relative max-[420px]:w-[100px] max-[420px]:justify-left">
+                                                <select>
+                                                    <option selected disabled>Sort by</option>
+                                                    <option value="1">Position</option>
+                                                    <option value="2">Relevance</option>
+                                                    <option value="3">Name, A to Z</option>
+                                                    <option value="4">Name, Z to A</option>
+                                                    <option value="5">Price, low to high</option>
+                                                    <option value="6">Price, high to low</option>
+                                                </select>
+                                            </div>
+>>>>>>> 61e01f4 (I fixed a bug with the frontend)
                                         </div>
                                     </div>
                                 </div>
@@ -380,31 +449,26 @@
 
 <script>
     $(function () {
-        let urlParams = new URLSearchParams(window.location.search);
-
-        let startPrice = urlParams.get('startPrice') || {{ $minSalePrice ?? 0 }};
-        let endPrice = urlParams.get('endPrice') || {{ $maxSalePrice ?? 10000 }};
+        let startPrice = {{ request('startPrice', 0) }};
+        let endPrice = {{ request('endPrice', 10000) }};
 
         $("#slider-range").slider({
             range: true,
-            min: {{ $minSalePrice ?? 0 }},
-            max: {{ $maxSalePrice ?? 10000 }},
+            min: 0,
+            max: 10000,
             values: [startPrice, endPrice],
             slide: function (event, ui) {
                 $("#amount").text("$" + ui.values[0] + " - $" + ui.values[1]);
             },
             change: function (event, ui) {
-                let newParams = new URLSearchParams(window.location.search);
-                newParams.set('startPrice', ui.values[0]);
-                newParams.set('endPrice', ui.values[1]);
-
-                window.location.search = newParams.toString();
+                window.location.href = "?startPrice=" + ui.values[0] + "&endPrice=" + ui.values[1];
             }
         });
 
         $("#amount").text("$" + $("#slider-range").slider("values", 0) +
             " - $" + $("#slider-range").slider("values", 1));
     });
+<<<<<<< HEAD
     
     document.addEventListener("DOMContentLoaded", function () {
         const sortButton = document.getElementById("sortButton");
@@ -518,6 +582,8 @@
             });
         });
     });
+=======
+>>>>>>> 61e01f4 (I fixed a bug with the frontend)
 </script>
 
 </body>

@@ -168,11 +168,11 @@
                 </div>
             </div>
 
-
             <div class="w-full px-[12px]">
                 <div class="bb-deal-slider m-[-12px]">
                     <div class="bb-deal-block owl-carousel">
 
+                    
                         @foreach ($products as $product)
                             <div class="bb-deal-card p-[12px]" data-product-id="{{ $product->id }}" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                                 <!-- Mahsulot ma'lumotlari -->
@@ -221,6 +221,7 @@
                                             </li>
                                         </ul>
                                     </div>
+
                                     <div class="bb-pro-contact p-[20px]">
                                         <div class="bb-pro-subtitle mb-[8px] flex flex-wrap justify-between">
                                             <a href="shop-left-sidebar-col-3.html"

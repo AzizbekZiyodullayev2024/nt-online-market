@@ -100,6 +100,7 @@ class ProductsController extends Controller
             ->paginate(10);
 
         $categories = Category::all();
+<<<<<<< HEAD
         $parentCategories = Category::whereNull('parent_id')->orderBy('id', 'desc')->limit(4)->with('categories')->get();
         $productsMenu = Category::whereNull('parent_id')->orderBy('id', 'desc')->with('categories')->get();
         $images = Image::paginate(1);
@@ -107,6 +108,14 @@ class ProductsController extends Controller
 
         $minSalePrice = $products->min('price');
         $maxSalePrice = $products->max('price');
+=======
+        $images = Image::paginate(1);
+        $weights = Volume::all(); // **Shu qatorni qo‘sh!**
+        $minSalePrice = $products->min('sale_price');
+        $maxSalePrice = $products->max('sale_price');
+
+
+>>>>>>> 61e01f4 (I fixed a bug with the frontend)
 
         return view('product-filter', [
             'products' => $products,
